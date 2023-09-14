@@ -10,6 +10,18 @@ document.addEventListener("DOMContentLoaded", function () {
       const productDiv = document.createElement("div");
       productDiv.classList.add("product");
 
+      // ENTREGA 3 IDENTIFICADOR
+
+      productDiv.setAttribute("id", `${product.id}`); // agrega id con el id del producto
+
+      productDiv.addEventListener("click", function () {
+        window.location.href = "product-info.html";
+
+        localStorage.setItem("productID", product.id);
+      });
+
+      //
+
       const divText = document.createElement("div");
       divText.classList.add("divForText");
 
@@ -49,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const catID = localStorage.getItem("catID"); // obtener la clave de localStorage
-  
+
   if (catID) {
     // si catID es distinto del vacio entonces es true y con ese contenido crea la URL
     const url = `https://japceibal.github.io/emercado-api/cats_products/${catID}.json`;
@@ -58,32 +70,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const pDet = document.getElementById("detalle"); // llama al párrafo que aparece debajo de Productos.
 
-    if (catID == 101) {
-      // si catID es 101, accedimos a la categoría autos.
-      pDet.textContent =
-        "Veras aqui todos los productos de la categoria autos.";
-    } else if (catID == 102) {
-      // si catID es 102, accedimos a la categoría juguetes.
-      pDet.textContent =
-        "Veras aqui todos los productos de la categoria jueguetes.";
-    } else {
-      // si no es ninguna de las anteriores es porque accedimos a la categoría muebles.
-      pDet.textContent =
-        "Veras aqui todos los productos de la categoria muebles.";
-    }
-
     // Realizar la petición GET usando Fetch API
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
         displayProducts(data.products);
 
+        pDet.textContent = `Veras aqui todos los productos de la categoria ${data.catName}.`;
+
         // ENTREGA 2 - ORDENAR ALFABÉTICAMENTE ASCENDENTE
         document
           .getElementById("sortAsc")
           .addEventListener("click", function () {
-            let asc = data.products.sort((x, y) =>
-              x.name.localeCompare(y.name)
+            let asc = data.products.sort(
+              (x, y) => parseInt(x.cost) - parseInt(y.cost)
             );
             displayProducts(asc);
           });
@@ -92,13 +92,13 @@ document.addEventListener("DOMContentLoaded", function () {
         document
           .getElementById("sortDesc")
           .addEventListener("click", function () {
-            let desc = data.products.sort((x, y) =>
-              y.name.localeCompare(x.name)
+            let desc = data.products.sort(
+              (x, y) => parseInt(y.cost) - parseInt(x.cost)
             );
             displayProducts(desc);
           });
 
-        // ENTREGA 2 - ORDENAR POR PRECIO
+        // ENTREGA 2 - ORDENAR POR CANTIDAD
         document
           .getElementById("sortByCount")
           .addEventListener("click", function () {
@@ -159,8 +159,8 @@ document.addEventListener("DOMContentLoaded", function () {
             displayProducts(data.products);
           });
       })
-      .catch ((error) => {
+      .catch((error) => {
         console.error("Error al cargar los productos:", error);
       });
-    }  
+  }
 });
