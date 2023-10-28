@@ -9,13 +9,19 @@
   margin-right: 50px;
 }
 
+/* Entrega 6.1 */
+
+.finalPrices {
+  text-align: right;
+}
+
 /* Entrega 5.1*/
 
 #descVenta ul {
   list-style-type: none;
   padding: 0px; 
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 0.8fr 0.8fr 0.8fr 0.8fr 1fr;
 }
 
 .centrar {
@@ -25,7 +31,7 @@
 .divCartN {
   height: 60px;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 0.5fr;
   border: 0.5px solid black;
   margin-top: 20px;
   align-items: center;
